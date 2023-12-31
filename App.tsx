@@ -55,37 +55,41 @@ export function App() {
     };
   }, [minUnit]);
 
-  const ControlButton = useMemo(() => ({
-    children,
-    style,
-    onClick,
-  }: {
-    children: string;
-    style?: Record<string, any>;
-    onClick?: MouseEventHandler;
-  }) => {
-    const handleClick: MouseEventHandler = () => {
-      move(`${children.trim()}${isPrime ? "'" : ""}` as Move);
-      setIsPrime(false);
-    };
+  const ControlButton = useMemo(
+    () =>
+      ({
+        children,
+        style,
+      }: {
+        children: string;
+        style?: Record<string, any>;
+      }) => {
+        const handleClick: MouseEventHandler = () => {
+          move(children.trim() as Move);
+          setIsPrime(false);
+        };
 
-    return (
-      <button
-        onClick={onClick ?? handleClick}
-        style={{
-          border: `1px solid #222`,
-          background: "#333",
-          color: "white",
-          fontSize: '1.25rem',
-          padding: "1.25rem 1.5rem",
+        return (
+          <button
+            onClick={handleClick}
+            style={{
+              border: `1px solid #222`,
+              background: "#333",
+              color: "white",
+              fontSize: "1rem",
+              padding: "1rem 1.5rem",
+              minWidth: "4rem",
 
-          ...style,
-        }}
-      >
-        {children}
-      </button>
-    );
-  }, [move, setIsPrime, isPrime]);
+              ...style,
+            }}
+          >
+            {children}
+            {isPrime && "'"}
+          </button>
+        );
+      },
+    [move, setIsPrime, isPrime],
+  );
 
   return (
     <div
@@ -124,12 +128,19 @@ export function App() {
           <ControlButton>x</ControlButton>
           <ControlButton>y</ControlButton>
           <ControlButton>z</ControlButton>
-          <ControlButton
+          <button
             onClick={() => setIsPrime(!isPrime)}
-            style={{ flex: 1, backgroundColor: isPrime ? "#222" : "#333" }}
+            style={{
+              border: `1px solid #222`,
+              backgroundColor: isPrime ? "#222" : "#333",
+              color: "white",
+              fontSize: "1rem",
+              padding: "1rem 1.5rem",
+              flex: 1,
+            }}
           >
             '
-          </ControlButton>
+          </button>
         </div>
       </div>
     </div>
