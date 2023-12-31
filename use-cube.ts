@@ -257,6 +257,56 @@ const cubeReducer = (cube: Cube, action: { type: Move }) => {
           [cube.back[2][0], cube.back[2][1], cube.back[2][2]],
         ],
       };
+    case 'F':
+      return {
+        ...cube,
+        front: spinClockwise(cube.front),
+        up: [
+          [cube.up[0][0], cube.up[0][1], cube.up[0][2]],
+          [cube.up[1][0], cube.up[1][1], cube.up[1][2]],
+          [cube.left[2][2], cube.left[1][2], cube.left[0][2]],
+        ],
+        right: [
+          [cube.up[2][0], cube.right[0][1], cube.right[0][2]],
+          [cube.up[2][1], cube.right[1][1], cube.right[1][2]],
+          [cube.up[2][2], cube.right[2][1], cube.right[2][2]],
+        ],
+        down: [
+          [cube.right[2][0], cube.right[1][0], cube.right[0][0]],
+          [cube.down[1][0], cube.down[1][1], cube.down[1][2]],
+          [cube.down[2][0], cube.down[2][1], cube.down[2][2]],
+        ],
+        left: [
+          [cube.left[0][0], cube.left[0][1], cube.down[0][0]],
+          [cube.left[1][0], cube.left[1][1], cube.down[0][1]],
+          [cube.left[2][0], cube.left[2][1], cube.down[0][2]],
+        ],
+      };
+    case "F'":
+      return {
+        ...cube,
+        front: spinCounterClockwise(cube.front),
+        up: [
+          [cube.up[0][0], cube.up[0][1], cube.up[0][2]],
+          [cube.up[1][0], cube.up[1][1], cube.up[1][2]],
+          [cube.right[0][0], cube.right[1][0], cube.right[2][0]],
+        ],
+        right: [
+          [cube.down[0][2], cube.right[0][1], cube.right[0][2]],
+          [cube.down[0][1], cube.right[1][1], cube.right[1][2]],
+          [cube.down[0][0], cube.right[2][1], cube.right[2][2]],
+        ],
+        down: [
+          [cube.left[0][2], cube.left[1][2], cube.left[2][2]],
+          [cube.down[1][0], cube.down[1][1], cube.down[1][2]],
+          [cube.down[2][0], cube.down[2][1], cube.down[2][2]],
+        ],
+        left: [
+          [cube.left[0][0], cube.left[0][1], cube.up[2][2]],
+          [cube.left[1][0], cube.left[1][1], cube.up[2][1]],
+          [cube.left[2][0], cube.left[2][1], cube.up[2][0]],
+        ],
+      };
     default:
       return cube;
   }
