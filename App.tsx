@@ -17,6 +17,12 @@ export function App() {
         case 'U':
           dispatch({ type: "U'" });
           break;
+        case 'l':
+          dispatch({ type: 'L' });
+          break;
+        case 'L':
+          dispatch({ type: "L'" });
+          break;
         case 'r':
           dispatch({ type: 'R' });
           break;
@@ -36,10 +42,12 @@ export function App() {
 
   return (
     <div>
-      <button onClick={() => dispatch({ type: 'U' })}>U</button>
-      <button onClick={() => dispatch({ type: "U'" })}>U'</button>
+      <button onClick={() => dispatch({ type: 'L' })}>L</button>
+      <button onClick={() => dispatch({ type: "L'" })}>L'</button>
       <button onClick={() => dispatch({ type: 'R' })}>R</button>
       <button onClick={() => dispatch({ type: "R'" })}>R'</button>
+      <button onClick={() => dispatch({ type: 'U' })}>U</button>
+      <button onClick={() => dispatch({ type: "U'" })}>U'</button>
 
       <Cube data={cube} />
     </div>

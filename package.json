@@ -1,6 +1,8 @@
 {
-  "name": "dom-3d-cube",
-  "version": "1.0.0",
+  "name": "react-3d-cube-puzzle",
+  "author": "Xvezda <xvezda@naver.com>",
+  "license": "MIT",
+  "version": "0.1.0",
   "source": "index.html",
   "scripts": {
     "start": "parcel"

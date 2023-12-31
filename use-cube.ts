@@ -1,7 +1,13 @@
 import { useReducer } from 'react';
 import { Cube, Plane } from './Cube';
 
-type Command = 'R' | "R'" | 'U' | "U'";
+type Command = |
+  'F' | "F'" |
+  'B' | "B'" |
+  'U' | "U'" |
+  'D' | "D'" |
+  'L' | "L'" |
+  'R' | "R'";
 
 function createCube({ width, height }: { width: number; height: number }) {
   return {
@@ -51,6 +57,56 @@ function spinCounterClockwise(plane: Plane) {
 
 const cubeReducer = (cube: Cube, action: { type: Command }) => {
   switch (action.type) {
+    case "L":
+      return {
+        ...cube,
+        left: spinClockwise(cube.left),
+        up: [
+          [cube.back[0][0], cube.up[0][1], cube.up[0][2]],
+          [cube.back[1][0], cube.up[1][1], cube.up[1][2]],
+          [cube.back[2][0], cube.up[2][1], cube.up[2][2]],
+        ],
+        front: [
+          [cube.up[0][0], cube.front[0][1], cube.front[0][2]],
+          [cube.up[1][0], cube.front[1][1], cube.front[1][2]],
+          [cube.up[2][0], cube.front[2][1], cube.front[2][2]],
+        ],
+        down: [
+          [cube.front[0][0], cube.down[0][1], cube.down[0][2]],
+          [cube.front[1][0], cube.down[1][1], cube.down[1][2]],
+          [cube.front[2][0], cube.down[2][1], cube.down[2][2]],
+        ],
+        back: [
+          [cube.down[0][0], cube.back[0][1], cube.back[0][2]],
+          [cube.down[1][0], cube.back[1][1], cube.back[1][2]],
+          [cube.down[2][0], cube.back[2][1], cube.back[2][2]],
+        ],
+      };
+    case "L'":
+      return {
+        ...cube,
+        left: spinCounterClockwise(cube.left),
+        up: [
+          [cube.front[0][0], cube.up[0][1], cube.up[0][2]],
+          [cube.front[1][0], cube.up[1][1], cube.up[1][2]],
+          [cube.front[2][0], cube.up[2][1], cube.up[2][2]],
+        ],
+        front: [
+          [cube.down[0][0], cube.front[0][1], cube.front[0][2]],
+          [cube.down[1][0], cube.front[1][1], cube.front[1][2]],
+          [cube.down[2][0], cube.front[2][1], cube.front[2][2]],
+        ],
+        down: [
+          [cube.back[0][0], cube.down[0][1], cube.down[0][2]],
+          [cube.back[1][0], cube.down[1][1], cube.down[1][2]],
+          [cube.back[2][0], cube.down[2][1], cube.down[2][2]],
+        ],
+        back: [
+          [cube.up[0][0], cube.back[0][1], cube.back[0][2]],
+          [cube.up[1][0], cube.back[1][1], cube.back[1][2]],
+          [cube.up[2][0], cube.back[2][1], cube.back[2][2]],
+        ],
+      };
     case 'R':
       return {
         ...cube,
@@ -152,7 +208,7 @@ const cubeReducer = (cube: Cube, action: { type: Command }) => {
         ],
       };
     default:
-      throw new Error(`Unknown command ${action.type}`);
+      return cube;
   }
 };
 
