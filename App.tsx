@@ -1,11 +1,14 @@
 import { useEffect, useState, useRef } from "react";
-import { Cube, CubeContext } from './Cube';
+import { Cube, CubeContext } from "./Cube";
 import { useCube } from "./use-cube";
 
 export function App() {
   const { cube, move } = useCube();
+
   const [minUnit, setMinUnit] = useState(50);
   const [unit, setUnit] = useState(50);
+  const [isPrime, setIsPrime] = useState(false);
+
   const containerRef = useRef();
 
   useEffect(() => {
@@ -16,18 +19,18 @@ export function App() {
 
       const notation = [
         /[xyz]/i.test(e.key) ? e.key.toLowerCase() : e.key.toUpperCase(),
-        e.shiftKey ? "'" : '',
-      ].join('');
+        e.shiftKey ? "'" : "",
+      ].join("");
 
       move(notation);
 
       e.preventDefault();
     };
 
-    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
 
@@ -42,42 +45,79 @@ export function App() {
     };
 
     // TODO: apply some throttle
-    window.addEventListener('resize', handleResizing);
+    window.addEventListener("resize", handleResizing);
     handleResizing();
 
     return () => {
-      window.removeEventListener('resize', handleResizing);
+      window.removeEventListener("resize", handleResizing);
     };
   }, [minUnit]);
 
   return (
-    <div>
-      <div ref={containerRef} style={{ width: minUnit * 9, height: minUnit * 10, maxWidth: '100%' }}>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "column",
+      }}
+    >
+      <div
+        ref={containerRef}
+        style={{ width: minUnit * 9, height: minUnit * 10, maxWidth: "100%" }}
+      >
         <CubeContext.Provider value={{ unit }}>
           <Cube data={cube} />
         </CubeContext.Provider>
       </div>
 
-      <div>
-        <button onClick={() => move('U')}>U</button>
-        <button onClick={() => move("U'")}>U'</button>
-        <button onClick={() => move('D')}>D</button>
-        <button onClick={() => move("D'")}>D'</button>
-        <button onClick={() => move('L')}>L</button>
-        <button onClick={() => move("L'")}>L'</button>
-        <button onClick={() => move('R')}>R</button>
-        <button onClick={() => move("R'")}>R'</button>
-        <button onClick={() => move('F')}>F</button>
-        <button onClick={() => move("F'")}>F'</button>
-        <button onClick={() => move('B')}>B</button>
-        <button onClick={() => move("B'")}>B'</button>
-        <button onClick={() => move("x")}>x</button>
-        <button onClick={() => move("x'")}>x'</button>
-        <button onClick={() => move("y")}>y</button>
-        <button onClick={() => move("y'")}>y'</button>
-        <button onClick={() => move("z")}>z</button>
-        <button onClick={() => move("z'")}>z'</button>
+      <div style={{ maxWidth: "100%" }}>
+        <div style={{ display: "flex", width: "100%" }}>
+          <ControlButton onClick={() => isPrime ? move("F'") : move("F")}>F</ControlButton>
+          <ControlButton onClick={() => isPrime ? move("B'") : move("B")}>B</ControlButton>
+          <ControlButton onClick={() => isPrime ? move("U'") : move("U")}>U</ControlButton>
+          <ControlButton onClick={() => isPrime ? move("D'") : move("D")}>D</ControlButton>
+          <ControlButton onClick={() => isPrime ? move("L'") : move("L")}>L</ControlButton>
+          <ControlButton onClick={() => isPrime ? move("R'") : move("R")}>R</ControlButton>
+        </div>
+        <div style={{ display: "flex", width: "100%" }}>
+          <ControlButton onClick={() => isPrime ? move("x'") : move("x")}>x</ControlButton>
+          <ControlButton onClick={() => isPrime ? move("y'") : move("y")}>y</ControlButton>
+          <ControlButton onClick={() => isPrime ? move("z'") : move("z")}>z</ControlButton>
+          <ControlButton
+            onClick={() => setIsPrime(!isPrime)}
+            style={{ flex: 1, backgroundColor: isPrime ? '#222' : '#333' }}
+          >
+            '
+          </ControlButton>
+        </div>
       </div>
     </div>
   );
+}
 
+function ControlButton({
+  onClick,
+  children,
+  style,
+}: {
+  onClick: () => void;
+  children: string;
+  style?: Record<string, any>;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      style={{
+        border: `1px solid #222`,
+        background: "#333",
+        color: "white",
+        padding: "1rem 1.5rem",
+
+        ...style,
+      }}
+    >
+      {children}
+    </button>
+  );
+}
