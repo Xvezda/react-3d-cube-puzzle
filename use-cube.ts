@@ -7,7 +7,10 @@ type Move = |
   'U' | "U'" |
   'D' | "D'" |
   'L' | "L'" |
-  'R' | "R'";
+  'R' | "R'" |
+  'x' | "x'" |
+  'y' | "y'" |
+  'z' | "z'";
 
 function createCube({ width, height }: { width: number; height: number }) {
   return {
@@ -356,6 +359,42 @@ const cubeReducer = (cube: Cube, action: { type: Move }) => {
           [cube.down[2][1], cube.left[1][1], cube.left[1][2]],
           [cube.down[2][2], cube.left[2][1], cube.left[2][2]],
         ],
+      };
+    case 'x':
+      return {
+        ...cube,
+        left: spinCounterClockwise(cube.left),
+        up: [...cube.front],
+        front: [...cube.down],
+        down: [
+          [cube.back[2][2], cube.back[2][1], cube.back[2][0]],
+          [cube.back[1][2], cube.back[1][1], cube.back[1][0]],
+          [cube.back[0][2], cube.back[0][1], cube.back[0][0]],
+        ],
+        back: [
+          [cube.up[2][2], cube.up[2][1], cube.up[2][0]],
+          [cube.up[1][2], cube.up[1][1], cube.up[1][0]],
+          [cube.up[0][2], cube.up[0][1], cube.up[0][0]],
+        ],
+        right: spinClockwise(cube.right),
+      };
+    case "x'":
+      return {
+        ...cube,
+        left: spinClockwise(cube.left),
+        up: [
+          [cube.back[2][2], cube.back[2][1], cube.back[2][0]],
+          [cube.back[1][2], cube.back[1][1], cube.back[1][0]],
+          [cube.back[0][2], cube.back[0][1], cube.back[0][0]],
+        ],
+        front: [...cube.up],
+        down: [...cube.front],
+        back: [
+          [cube.down[2][2], cube.down[2][1], cube.down[2][0]],
+          [cube.down[1][2], cube.down[1][1], cube.down[1][0]],
+          [cube.down[0][2], cube.down[0][1], cube.down[0][0]],
+        ],
+        right: spinCounterClockwise(cube.right),
       };
     default:
       return cube;
