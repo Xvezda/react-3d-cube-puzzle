@@ -27758,32 +27758,32 @@ function createCube({ width, height }) {
         up: createFace({
             width,
             height,
-            color: "yellow"
+            color: "white"
         }),
         down: createFace({
             width,
             height,
-            color: "white"
+            color: "yellow"
         }),
         front: createFace({
             width,
             height,
-            color: "red"
+            color: "green"
         }),
         back: createFace({
             width,
             height,
-            color: "orange"
+            color: "blue"
         }),
         left: createFace({
             width,
             height,
-            color: "green"
+            color: "orange"
         }),
         right: createFace({
             width,
             height,
-            color: "blue"
+            color: "red"
         })
     };
 }
