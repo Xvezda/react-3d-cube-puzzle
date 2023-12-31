@@ -13,7 +13,13 @@ export function App() {
       if (e.ctrlKey || e.altKey || e.metaKey) {
         return;
       }
-      move(e.key.toUpperCase() + (e.shiftKey ? "'" : ''));
+
+      const notation = [
+        /[xyz]/i.test(e.key) ? e.key.toLowerCase() : e.key.toUpperCase(),
+        e.shiftKey ? "'" : '',
+      ].join('');
+
+      move(notation);
 
       e.preventDefault();
     };
