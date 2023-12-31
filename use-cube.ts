@@ -17,14 +17,14 @@ function createCube({ width, height }: { width: number; height: number }) {
     width,
     height,
 
-    up: createFace({ width, height, color: "yellow" }),
-    down: createFace({ width, height, color: "white" }),
+    up: createFace({ width, height, color: "white" }),
+    down: createFace({ width, height, color: "yellow" }),
 
-    front: createFace({ width, height, color: "red" }),
-    back: createFace({ width, height, color: "orange" }),
+    front: createFace({ width, height, color: "green" }),
+    back: createFace({ width, height, color: "blue" }),
 
-    left: createFace({ width, height, color: "green" }),
-    right: createFace({ width, height, color: "blue" }),
+    left: createFace({ width, height, color: "orange" }),
+    right: createFace({ width, height, color: "red" }),
   };
 }
 
