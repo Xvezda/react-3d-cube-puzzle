@@ -396,6 +396,26 @@ const cubeReducer = (cube: Cube, action: { type: Move }) => {
         ],
         right: spinCounterClockwise(cube.right),
       };
+    case 'y':
+      return {
+        ...cube,
+        up: spinClockwise(cube.up),
+        right: [...cube.back],
+        front: [...cube.right],
+        left: [...cube.front],
+        back: [...cube.left],
+        down: spinCounterClockwise(cube.down),
+      };
+    case "y'":
+      return {
+        ...cube,
+        up: spinCounterClockwise(cube.up),
+        right: [...cube.front],
+        front: [...cube.left],
+        left: [...cube.back],
+        back: [...cube.right],
+        down: spinClockwise(cube.down),
+      };
     default:
       return cube;
   }
