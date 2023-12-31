@@ -2943,11 +2943,12 @@ $parcel$ReactRefreshHelpers$2125.prelude(module);
 
 try {
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
+var _normalizeCss = require("normalize.css");
 var _client = require("react-dom/client");
 var _app = require("./App");
 (0, _client.createRoot)(document.getElementById("root")).render(/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _app.App), {}, void 0, false, {
     fileName: "index.tsx",
-    lineNumber: 4,
+    lineNumber: 6,
     columnNumber: 52
 }, undefined));
 
@@ -2956,7 +2957,7 @@ var _app = require("./App");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"hce59","react-dom/client":"6ixee","./App":"29gdY","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"efDWh"}],"hce59":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"hce59","react-dom/client":"6ixee","./App":"29gdY","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"efDWh","normalize.css":"dn29E"}],"hce59":[function(require,module,exports) {
 "use strict";
 module.exports = require("4da0a73d9d3054b9");
 
@@ -27161,65 +27162,18 @@ var _s = $RefreshSig$();
 function App() {
     _s();
     const { cube, move } = (0, _useCube.useCube)();
+    const [minUnit, _setMinUnit] = (0, _react.useState)(50);
+    const [unit, setUnit] = (0, _react.useState)(50);
+    const [isPrime, setIsPrime] = (0, _react.useState)(false);
+    const containerRef = (0, _react.useRef)();
     (0, _react.useEffect)(()=>{
         const handleKeyDown = (e)=>{
             if (e.ctrlKey || e.altKey || e.metaKey) return;
-            switch(e.key){
-                case "u":
-                    move("U");
-                    break;
-                case "U":
-                    move("U'");
-                    break;
-                case "d":
-                    move("D");
-                    break;
-                case "D":
-                    move("D'");
-                    break;
-                case "l":
-                    move("L");
-                    break;
-                case "L":
-                    move("L'");
-                    break;
-                case "r":
-                    move("R");
-                    break;
-                case "R":
-                    move("R'");
-                    break;
-                case "f":
-                    move("F");
-                    break;
-                case "F":
-                    move("F'");
-                    break;
-                case "b":
-                    move("B");
-                    break;
-                case "B":
-                    move("B'");
-                    break;
-                case "x":
-                    move("x");
-                    break;
-                case "X":
-                    move("x'");
-                    break;
-                case "y":
-                    move("y");
-                    break;
-                case "Y":
-                    move("y'");
-                    break;
-                case "z":
-                    move("z");
-                    break;
-                case "Z":
-                    move("z'");
-                    break;
-            }
+            const notation = [
+                /[xyz]/i.test(e.key) ? e.key.toLowerCase() : e.key.toUpperCase(),
+                e.shiftKey ? "'" : ""
+            ].join("");
+            move(notation);
             e.preventDefault();
         };
         window.addEventListener("keydown", handleKeyDown);
@@ -27227,167 +27181,203 @@ function App() {
             window.removeEventListener("keydown", handleKeyDown);
         };
     }, []);
+    (0, _react.useEffect)(()=>{
+        const handleResizing = ()=>{
+            if (!containerRef.current) return;
+            const { width } = containerRef.current.getBoundingClientRect();
+            const newUnit = Math.floor(width / 9);
+            if (newUnit > minUnit) return;
+            setUnit(newUnit);
+        };
+        // TODO: apply some throttle
+        window.addEventListener("resize", handleResizing);
+        handleResizing();
+        return ()=>{
+            window.removeEventListener("resize", handleResizing);
+        };
+    }, [
+        minUnit
+    ]);
+    const ControlButton = (0, _react.useMemo)(()=>({ children, style, onClick })=>{
+            const handleClick = ()=>{
+                move(`${children.trim()}${isPrime ? "'" : ""}`);
+                setIsPrime(false);
+            };
+            return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                onClick: onClick ?? handleClick,
+                style: {
+                    border: `1px solid #222`,
+                    background: "#333",
+                    color: "white",
+                    fontSize: "1.25rem",
+                    padding: "1.25rem 1.5rem",
+                    ...style
+                },
+                children: children
+            }, void 0, false, {
+                fileName: "App.tsx",
+                lineNumber: 73,
+                columnNumber: 7
+            }, this);
+        }, [
+        move,
+        setIsPrime,
+        isPrime
+    ]);
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+        style: {
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column"
+        },
         children: [
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                onClick: ()=>move("U"),
-                children: "U"
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                ref: containerRef,
+                style: {
+                    width: minUnit * 9,
+                    height: unit * 10,
+                    maxWidth: "100%"
+                },
+                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _cube.CubeContext).Provider, {
+                    value: {
+                        unit
+                    },
+                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _cube.Cube), {
+                        data: cube
+                    }, void 0, false, {
+                        fileName: "App.tsx",
+                        lineNumber: 104,
+                        columnNumber: 11
+                    }, this)
+                }, void 0, false, {
+                    fileName: "App.tsx",
+                    lineNumber: 103,
+                    columnNumber: 9
+                }, this)
             }, void 0, false, {
                 fileName: "App.tsx",
-                lineNumber: 81,
+                lineNumber: 99,
                 columnNumber: 7
             }, this),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                onClick: ()=>move("U'"),
-                children: "U'"
-            }, void 0, false, {
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                style: {
+                    maxWidth: minUnit * 9,
+                    display: "flex",
+                    flexDirection: "column"
+                },
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        style: {
+                            display: "flex"
+                        },
+                        children: [
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(ControlButton, {
+                                children: "F"
+                            }, void 0, false, {
+                                fileName: "App.tsx",
+                                lineNumber: 116,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(ControlButton, {
+                                children: "B"
+                            }, void 0, false, {
+                                fileName: "App.tsx",
+                                lineNumber: 117,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(ControlButton, {
+                                children: "U"
+                            }, void 0, false, {
+                                fileName: "App.tsx",
+                                lineNumber: 118,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(ControlButton, {
+                                children: "D"
+                            }, void 0, false, {
+                                fileName: "App.tsx",
+                                lineNumber: 119,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(ControlButton, {
+                                children: "L"
+                            }, void 0, false, {
+                                fileName: "App.tsx",
+                                lineNumber: 120,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(ControlButton, {
+                                children: "R"
+                            }, void 0, false, {
+                                fileName: "App.tsx",
+                                lineNumber: 121,
+                                columnNumber: 11
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "App.tsx",
+                        lineNumber: 115,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        style: {
+                            display: "flex"
+                        },
+                        children: [
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(ControlButton, {
+                                children: "x"
+                            }, void 0, false, {
+                                fileName: "App.tsx",
+                                lineNumber: 124,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(ControlButton, {
+                                children: "y"
+                            }, void 0, false, {
+                                fileName: "App.tsx",
+                                lineNumber: 125,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(ControlButton, {
+                                children: "z"
+                            }, void 0, false, {
+                                fileName: "App.tsx",
+                                lineNumber: 126,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(ControlButton, {
+                                onClick: ()=>setIsPrime(!isPrime),
+                                style: {
+                                    flex: 1,
+                                    backgroundColor: isPrime ? "#222" : "#333"
+                                },
+                                children: "'"
+                            }, void 0, false, {
+                                fileName: "App.tsx",
+                                lineNumber: 127,
+                                columnNumber: 11
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "App.tsx",
+                        lineNumber: 123,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
                 fileName: "App.tsx",
-                lineNumber: 82,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                onClick: ()=>move("D"),
-                children: "D"
-            }, void 0, false, {
-                fileName: "App.tsx",
-                lineNumber: 83,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                onClick: ()=>move("D'"),
-                children: "D'"
-            }, void 0, false, {
-                fileName: "App.tsx",
-                lineNumber: 84,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                onClick: ()=>move("L"),
-                children: "L"
-            }, void 0, false, {
-                fileName: "App.tsx",
-                lineNumber: 85,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                onClick: ()=>move("L'"),
-                children: "L'"
-            }, void 0, false, {
-                fileName: "App.tsx",
-                lineNumber: 86,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                onClick: ()=>move("R"),
-                children: "R"
-            }, void 0, false, {
-                fileName: "App.tsx",
-                lineNumber: 87,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                onClick: ()=>move("R'"),
-                children: "R'"
-            }, void 0, false, {
-                fileName: "App.tsx",
-                lineNumber: 88,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                onClick: ()=>move("F"),
-                children: "F"
-            }, void 0, false, {
-                fileName: "App.tsx",
-                lineNumber: 89,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                onClick: ()=>move("F'"),
-                children: "F'"
-            }, void 0, false, {
-                fileName: "App.tsx",
-                lineNumber: 90,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                onClick: ()=>move("B"),
-                children: "B"
-            }, void 0, false, {
-                fileName: "App.tsx",
-                lineNumber: 91,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                onClick: ()=>move("B'"),
-                children: "B'"
-            }, void 0, false, {
-                fileName: "App.tsx",
-                lineNumber: 92,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                onClick: ()=>move("x"),
-                children: "x"
-            }, void 0, false, {
-                fileName: "App.tsx",
-                lineNumber: 93,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                onClick: ()=>move("x'"),
-                children: "x'"
-            }, void 0, false, {
-                fileName: "App.tsx",
-                lineNumber: 94,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                onClick: ()=>move("y"),
-                children: "y"
-            }, void 0, false, {
-                fileName: "App.tsx",
-                lineNumber: 95,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                onClick: ()=>move("y'"),
-                children: "y'"
-            }, void 0, false, {
-                fileName: "App.tsx",
-                lineNumber: 96,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                onClick: ()=>move("z"),
-                children: "z"
-            }, void 0, false, {
-                fileName: "App.tsx",
-                lineNumber: 97,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                onClick: ()=>move("z'"),
-                children: "z'"
-            }, void 0, false, {
-                fileName: "App.tsx",
-                lineNumber: 98,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _cube.Cube), {
-                data: cube
-            }, void 0, false, {
-                fileName: "App.tsx",
-                lineNumber: 100,
+                lineNumber: 108,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "App.tsx",
-        lineNumber: 80,
+        lineNumber: 91,
         columnNumber: 5
     }, this);
 }
-_s(App, "GNkM5iKW7SM1R6I+6szzPAhaKk0=", false, function() {
+_s(App, "3FtxcVQ+T+WMarZI1dZcNre4RYU=", false, function() {
     return [
         (0, _useCube.useCube)
     ];
@@ -27410,83 +27400,81 @@ $parcel$ReactRefreshHelpers$bbf7.prelude(module);
 try {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "CubeContext", ()=>CubeContext);
 parcelHelpers.export(exports, "Cube", ()=>Cube);
 parcelHelpers.export(exports, "Face", ()=>Face);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
+var _react = require("react");
+var _s = $RefreshSig$(), _s1 = $RefreshSig$();
+const CubeContext = /*#__PURE__*/ (0, _react.createContext)({
+    unit: 50
+});
 function Cube({ data }) {
+    _s();
+    const { unit } = (0, _react.useContext)(CubeContext);
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         style: {
-            width: 150,
-            height: 150,
+            width: unit * 3,
+            height: unit * 3,
             position: "relative",
             transformStyle: "preserve-3d",
-            transform: "translateX(150px) translateY(150px) rotateX(-45deg) rotateY(-45deg)"
+            transform: `translateX(${unit * 3}px) translateY(${unit * 3}px) rotateX(-30deg) rotateY(-45deg)`
         },
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(Face, {
                 data: data.up,
                 style: {
-                    transform: `rotateX(90deg) translateZ(75px)`
+                    transform: `rotateX(90deg) translateZ(${Math.floor(unit * 3 / 2)}px)`
                 }
             }, void 0, false, {
                 fileName: "Cube.tsx",
-                lineNumber: 29,
+                lineNumber: 35,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(Face, {
                 data: data.front,
                 style: {
-                    transform: `translateZ(75px)`
+                    transform: `translateZ(${Math.floor(unit * 3 / 2)}px)`
                 }
             }, void 0, false, {
                 fileName: "Cube.tsx",
-                lineNumber: 33,
+                lineNumber: 39,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(Face, {
                 data: data.left,
                 style: {
-                    transform: `rotateY(-90deg) translateZ(75px)`
+                    transform: `rotateY(-90deg) translateZ(${Math.floor(unit * 3 / 2)}px)`
                 }
             }, void 0, false, {
                 fileName: "Cube.tsx",
-                lineNumber: 34,
+                lineNumber: 40,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(Face, {
                 data: data.back,
                 style: {
-                    transform: `rotateY(180deg) translateZ(75px)`
+                    transform: `rotateY(180deg) translateZ(${Math.floor(unit * 3 / 2)}px)`
                 }
             }, void 0, false, {
                 fileName: "Cube.tsx",
-                lineNumber: 38,
+                lineNumber: 44,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(Face, {
                 data: data.right,
                 style: {
-                    transform: `rotateY(90deg) translateZ(75px)`
+                    transform: `rotateY(90deg) translateZ(${Math.floor(unit * 3 / 2)}px)`
                 }
             }, void 0, false, {
                 fileName: "Cube.tsx",
-                lineNumber: 42,
+                lineNumber: 48,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(Face, {
                 data: data.down,
                 style: {
-                    transform: `rotateX(-90deg) translateZ(75px)`
-                }
-            }, void 0, false, {
-                fileName: "Cube.tsx",
-                lineNumber: 46,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(Face, {
-                data: data.left,
-                style: {
-                    transform: `rotateY(-90deg) translateZ(225px)`
+                    transform: `rotateX(-90deg) translateZ(${Math.floor(unit * 3 / 2)}px)`
                 }
             }, void 0, false, {
                 fileName: "Cube.tsx",
@@ -27494,34 +27482,47 @@ function Cube({ data }) {
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(Face, {
-                data: data.back,
+                data: data.left,
                 style: {
-                    transform: `rotateY(180deg) translateZ(225px)`
+                    transform: `rotateY(-90deg) translateZ(${unit * 4}px)`
                 }
             }, void 0, false, {
                 fileName: "Cube.tsx",
-                lineNumber: 56,
+                lineNumber: 58,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(Face, {
+                data: data.back,
+                style: {
+                    transform: `rotateY(180deg) translateZ(${unit * 4}px)`
+                }
+            }, void 0, false, {
+                fileName: "Cube.tsx",
+                lineNumber: 62,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(Face, {
                 data: data.down,
                 style: {
-                    transform: `rotateX(-90deg) translateZ(300px)`
+                    transform: `rotateX(-90deg) translateZ(${unit * 4 - 20}px)`
                 }
             }, void 0, false, {
                 fileName: "Cube.tsx",
-                lineNumber: 60,
+                lineNumber: 66,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "Cube.tsx",
-        lineNumber: 20,
+        lineNumber: 26,
         columnNumber: 5
     }, this);
 }
+_s(Cube, "3dZS9zDOnKlbwnXG5qEwW3rrR4I=");
 _c = Cube;
 function Face({ data, style }) {
+    _s1();
+    const { unit } = (0, _react.useContext)(CubeContext);
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         style: {
             position: "absolute",
@@ -27535,8 +27536,8 @@ function Face({ data, style }) {
                 children: row.map((color, j)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                         style: {
                             display: "flex",
-                            width: 50,
-                            height: 50,
+                            width: unit,
+                            height: unit,
                             border: "1px solid black",
                             backgroundColor: color,
                             boxSizing: "border-box",
@@ -27548,20 +27549,21 @@ function Face({ data, style }) {
                         color
                     ].join(":"), false, {
                         fileName: "Cube.tsx",
-                        lineNumber: 76,
+                        lineNumber: 84,
                         columnNumber: 13
                     }, this))
             }, i, false, {
                 fileName: "Cube.tsx",
-                lineNumber: 74,
+                lineNumber: 82,
                 columnNumber: 9
             }, this))
     }, void 0, false, {
         fileName: "Cube.tsx",
-        lineNumber: 70,
+        lineNumber: 78,
         columnNumber: 5
     }, this);
 }
+_s1(Face, "3dZS9zDOnKlbwnXG5qEwW3rrR4I=");
 _c1 = Face;
 var _c, _c1;
 $RefreshReg$(_c, "Cube");
@@ -27572,7 +27574,7 @@ $RefreshReg$(_c1, "Face");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"hce59","@parcel/transformer-js/src/esmodule-helpers.js":"fF8Uh","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"efDWh"}],"fF8Uh":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"hce59","react":"9BhJZ","@parcel/transformer-js/src/esmodule-helpers.js":"fF8Uh","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"efDWh"}],"fF8Uh":[function(require,module,exports) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -28883,6 +28885,6 @@ const useCube = ()=>{
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react":"9BhJZ","@parcel/transformer-js/src/esmodule-helpers.js":"fF8Uh","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"efDWh"}]},["jhOdQ","hMqR2","kjLP2"], "kjLP2", "parcelRequiref5f5")
+},{"react":"9BhJZ","@parcel/transformer-js/src/esmodule-helpers.js":"fF8Uh","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"efDWh"}],"dn29E":[function() {},{}]},["jhOdQ","hMqR2","kjLP2"], "kjLP2", "parcelRequiref5f5")
 
 //# sourceMappingURL=index.6fa4ea68.js.map
