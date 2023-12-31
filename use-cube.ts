@@ -1,7 +1,7 @@
 import { useReducer, useCallback } from 'react';
 import { Cube, Face } from './Cube';
 
-type Move = |
+export type Move = |
   'F' | "F'" |
   'B' | "B'" |
   'U' | "U'" |
