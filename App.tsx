@@ -17,6 +17,12 @@ export function App() {
         case 'U':
           move("U'");
           break;
+        case 'd':
+          move('D');
+          break;
+        case 'D':
+          move("D'");
+          break;
         case 'l':
           move('L');
           break;
@@ -42,12 +48,14 @@ export function App() {
 
   return (
     <div>
+      <button onClick={() => move('U')}>U</button>
+      <button onClick={() => move("U'")}>U'</button>
+      <button onClick={() => move('D')}>D</button>
+      <button onClick={() => move("D'")}>D'</button>
       <button onClick={() => move('L')}>L</button>
       <button onClick={() => move("L'")}>L'</button>
       <button onClick={() => move('R')}>R</button>
       <button onClick={() => move("R'")}>R'</button>
-      <button onClick={() => move('U')}>U</button>
-      <button onClick={() => move("U'")}>U'</button>
 
       <Cube data={cube} />
     </div>
