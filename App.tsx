@@ -3,7 +3,7 @@ import { Cube } from './Cube';
 import { useCube } from "./use-cube";
 
 export function App() {
-  const { cube, dispatch } = useCube();
+  const { cube, move } = useCube();
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -12,22 +12,22 @@ export function App() {
       }
       switch (e.key) {
         case 'u':
-          dispatch({ type: 'U' });
+          move('U');
           break;
         case 'U':
-          dispatch({ type: "U'" });
+          move("U'");
           break;
         case 'l':
-          dispatch({ type: 'L' });
+          move('L');
           break;
         case 'L':
-          dispatch({ type: "L'" });
+          move("L'");
           break;
         case 'r':
-          dispatch({ type: 'R' });
+          move('R');
           break;
         case 'R':
-          dispatch({ type: "R'" });
+          move("R'");
           break;
       }
       e.preventDefault();
@@ -42,12 +42,12 @@ export function App() {
 
   return (
     <div>
-      <button onClick={() => dispatch({ type: 'L' })}>L</button>
-      <button onClick={() => dispatch({ type: "L'" })}>L'</button>
-      <button onClick={() => dispatch({ type: 'R' })}>R</button>
-      <button onClick={() => dispatch({ type: "R'" })}>R'</button>
-      <button onClick={() => dispatch({ type: 'U' })}>U</button>
-      <button onClick={() => dispatch({ type: "U'" })}>U'</button>
+      <button onClick={() => move('L')}>L</button>
+      <button onClick={() => move("L'")}>L'</button>
+      <button onClick={() => move('R')}>R</button>
+      <button onClick={() => move("R'")}>R'</button>
+      <button onClick={() => move('U')}>U</button>
+      <button onClick={() => move("U'")}>U'</button>
 
       <Cube data={cube} />
     </div>

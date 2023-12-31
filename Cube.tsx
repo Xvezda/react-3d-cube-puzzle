@@ -1,34 +1,34 @@
 export type Piece = string;
-export type Plane = Piece[][];
+export type Face = Piece[][];
 
 export interface Cube {
   width: number;
   height: number;
 
-  up: Plane;
-  down: Plane;
+  up: Face;
+  down: Face;
 
-  front: Plane;
-  back: Plane;
+  front: Face;
+  back: Face;
 
-  left: Plane;
-  right: Plane;
+  left: Face;
+  right: Face;
 }
 
 export function Cube({ data }: { data: Cube }) {
   return (
     <div>
-      <Plane data={data.up} />
-      <Plane data={data.front} />
-      <Plane data={data.left} />
-      <Plane data={data.back} />
-      <Plane data={data.right} />
-      <Plane data={data.down} />
+      <Face data={data.up} />
+      <Face data={data.front} />
+      <Face data={data.left} />
+      <Face data={data.back} />
+      <Face data={data.right} />
+      <Face data={data.down} />
     </div>
   );
 }
 
-export function Plane({ data }: { data: Plane }) {
+export function Face({ data }: { data: Face }) {
   return (
     <div style={{ marginTop: 10 }}>
       {data.map((row, i) => (

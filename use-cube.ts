@@ -1,7 +1,7 @@
-import { useReducer } from 'react';
-import { Cube, Plane } from './Cube';
+import { useReducer, useCallback } from 'react';
+import { Cube, Face } from './Cube';
 
-type Command = |
+type Move = |
   'F' | "F'" |
   'B' | "B'" |
   'U' | "U'" |
@@ -14,18 +14,18 @@ function createCube({ width, height }: { width: number; height: number }) {
     width,
     height,
 
-    up: createPlane({ width, height, color: "yellow" }),
-    down: createPlane({ width, height, color: "white" }),
+    up: createFace({ width, height, color: "yellow" }),
+    down: createFace({ width, height, color: "white" }),
 
-    front: createPlane({ width, height, color: "red" }),
-    back: createPlane({ width, height, color: "orange" }),
+    front: createFace({ width, height, color: "red" }),
+    back: createFace({ width, height, color: "orange" }),
 
-    left: createPlane({ width, height, color: "green" }),
-    right: createPlane({ width, height, color: "blue" }),
+    left: createFace({ width, height, color: "green" }),
+    right: createFace({ width, height, color: "blue" }),
   };
 }
 
-function createPlane({
+function createFace({
   width,
   height,
   color,
@@ -39,23 +39,23 @@ function createPlane({
   );
 }
 
-function spinClockwise(plane: Plane) {
+function spinClockwise(face: Face) {
   return [
-    [plane[2][0], plane[1][0], plane[0][0]],
-    [plane[2][1], plane[1][1], plane[0][1]],
-    [plane[2][2], plane[1][2], plane[0][2]],
+    [face[2][0], face[1][0], face[0][0]],
+    [face[2][1], face[1][1], face[0][1]],
+    [face[2][2], face[1][2], face[0][2]],
   ];
 }
 
-function spinCounterClockwise(plane: Plane) {
+function spinCounterClockwise(face: Face) {
   return [
-    [plane[0][2], plane[1][2], plane[2][2]],
-    [plane[0][1], plane[1][1], plane[2][1]],
-    [plane[0][0], plane[1][0], plane[2][0]],
+    [face[0][2], face[1][2], face[2][2]],
+    [face[0][1], face[1][1], face[2][1]],
+    [face[0][0], face[1][0], face[2][0]],
   ];
 }
 
-const cubeReducer = (cube: Cube, action: { type: Command }) => {
+const cubeReducer = (cube: Cube, action: { type: Move }) => {
   switch (action.type) {
     case "L":
       return {
@@ -214,6 +214,10 @@ const cubeReducer = (cube: Cube, action: { type: Command }) => {
 
 export const useCube = () => {
   const [cube, dispatch] = useReducer(cubeReducer, { width: 3, height: 3 }, createCube);
+  
+  const move = useCallback((move: Move) => {
+    dispatch({ type: move });
+  }, []);
 
-  return { cube, dispatch };
+  return { cube, move };
 };
