@@ -1,5 +1,5 @@
 import { useReducer, useCallback } from "react";
-import { Cube, Face } from "./Cube";
+import { createCube, Cube, Face } from "./Cube";
 
 export const MOVES = ["F", "B", "U", "D", "L", "R"] as const;
 
@@ -21,36 +21,6 @@ export type Move =
   | (typeof DOUBLE_MOVES)[number]
   | (typeof DOUBLE_ROTATIONS)[number];
 
-function createCube({ width, height }: { width: number; height: number }) {
-  return {
-    width,
-    height,
-
-    up: createFace({ width, height, color: "white" }),
-    down: createFace({ width, height, color: "yellow" }),
-
-    front: createFace({ width, height, color: "green" }),
-    back: createFace({ width, height, color: "blue" }),
-
-    left: createFace({ width, height, color: "orange" }),
-    right: createFace({ width, height, color: "red" }),
-  };
-}
-
-function createFace({
-  width,
-  height,
-  color,
-}: {
-  width: number;
-  height: number;
-  color: string;
-}) {
-  return Array.from({ length: height }, () =>
-    Array.from({ length: width }, () => color),
-  );
-}
-
 function turnClockwise(face: Face) {
   return [
     [face[2][0], face[1][0], face[0][0]],
@@ -67,7 +37,7 @@ function turnCounterClockwise(face: Face) {
   ];
 }
 
-const cubeReducer = (cube: Cube, action: { type: Move }) => {
+export const cubeReducer = (cube: Cube, action: { type: Move }) => {
   switch (action.type) {
     case "L":
       return {

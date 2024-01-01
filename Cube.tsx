@@ -17,6 +17,34 @@ export interface Cube {
   right: Face;
 }
 
+class BidirectionalMap<K, V> {
+  private map = new Map<K | V, V | K>();
+
+  constructor(entries: [K, V][]) {
+    entries.forEach(([key, value]) => this.set(key, value));
+  }
+
+  set(key: K, value: V) {
+    this.map.set(key, value);
+    this.map.set(value, key);
+  }
+
+  get(key: K) {
+    return this.map.get(key);
+  }
+}
+
+const COLORS = {
+  white: "W",
+  yellow: "Y",
+  green: "G",
+  blue: "B",
+  orange: "O",
+  red: "R",
+} as const;
+
+export const colorTable = new BidirectionalMap(Object.entries(COLORS));
+
 export const CubeContext = createContext({ unit: 50 });
 
 export function Cube({ data }: { data: Cube }) {
@@ -95,7 +123,7 @@ export function Face({ data, style }: { data: Face; style?: any }) {
                 width: unit,
                 height: unit,
                 border: "1px solid black",
-                backgroundColor: color,
+                backgroundColor: colorTable.get(color),
                 boxSizing: "border-box",
                 opacity: 0.9,
               }}
@@ -106,3 +134,35 @@ export function Face({ data, style }: { data: Face; style?: any }) {
     </div>
   );
 }
+
+export function createCube({ width, height }: { width: number; height: number }) {
+  return {
+    width,
+    height,
+
+    up: createFace({ width, height, color: "white" }),
+    down: createFace({ width, height, color: "yellow" }),
+
+    front: createFace({ width, height, color: "green" }),
+    back: createFace({ width, height, color: "blue" }),
+
+    left: createFace({ width, height, color: "orange" }),
+    right: createFace({ width, height, color: "red" }),
+  };
+}
+
+function createFace({
+  width,
+  height,
+  color,
+}: {
+  width: number;
+  height: number;
+  color: keyof typeof COLORS;
+}) {
+  return Array.from({ length: height }, () =>
+    Array.from({ length: width }, () => colorTable.get(color)),
+  );
+}
+
+
