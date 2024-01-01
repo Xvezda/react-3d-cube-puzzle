@@ -8,6 +8,7 @@ export function App() {
   const [minUnit, _setMinUnit] = useState(50);
   const [unit, setUnit] = useState(50);
   const [isPrime, setIsPrime] = useState(false);
+  const [isLocked, setIsLocked] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>();
 
@@ -65,8 +66,8 @@ export function App() {
         style?: Record<string, any>;
       }) => {
         const handleClick: MouseEventHandler = () => {
-          move(children.trim() as Move);
-          setIsPrime(false);
+          move(`${children.trim()}${isPrime ? "'" : ""}` as Move);
+          if (!isLocked) setIsPrime(false);
         };
 
         return (
@@ -129,10 +130,32 @@ export function App() {
           <ControlButton>y</ControlButton>
           <ControlButton>z</ControlButton>
           <button
+            onClick={() => {
+              setIsLocked(!isLocked);
+              setIsPrime(!isPrime);
+            }}
+            style={{
+              border: `1px solid #222`,
+              backgroundColor: isLocked ? "#222" : "#333",
+              color: "white",
+              fontSize: "1rem",
+              padding: "1rem 1.5rem",
+              flex: 1,
+            }}
+          >
+            Lock'
+          </button>
+          <button
+            disabled={isLocked}
             onClick={() => setIsPrime(!isPrime)}
             style={{
               border: `1px solid #222`,
-              backgroundColor: isPrime ? "#222" : "#333",
+              backgroundColor:
+                isLocked ?
+                  "#555" :
+                  isPrime ?
+                    "#222" :
+                    "#333",
               color: "white",
               fontSize: "1rem",
               padding: "1rem 1.5rem",
