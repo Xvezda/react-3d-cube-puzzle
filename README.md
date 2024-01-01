@@ -3,9 +3,11 @@
 > [!WARNING]
 > WIP
     
-<a href="https://xvezda.github.io/react-3d-cube-puzzle/" target="_blank">
+<a href="https://xvezda.github.io/react-3d-cube-puzzle" target="_blank">
 <img width="429" alt="image" src="https://github.com/Xvezda/react-3d-cube-puzzle/assets/9497404/057a02b4-09f4-43e7-b339-1ec35ddbffa8">
 </a>
+
+https://xvezda.github.io/react-3d-cube-puzzle
 
 ## Shortcuts
 | Move | Key | 
