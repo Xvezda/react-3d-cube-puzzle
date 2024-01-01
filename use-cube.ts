@@ -1,25 +1,19 @@
 import { useReducer, useCallback } from "react";
 import { Cube, Face } from "./Cube";
 
+export const MOVES = ["F", "B", "U", "D", "L", "R"] as const;
+
+export const PRIME_MOVES = MOVES.map((move) => `${move}'` as const);
+
+export const ROTATIONS = ["x", "y", "z"] as const;
+
+export const PRIME_ROTATIONS = ROTATIONS.map((move) => `${move}'` as const);
+
 export type Move =
-  | "F"
-  | "F'"
-  | "B"
-  | "B'"
-  | "U"
-  | "U'"
-  | "D"
-  | "D'"
-  | "L"
-  | "L'"
-  | "R"
-  | "R'"
-  | "x"
-  | "x'"
-  | "y"
-  | "y'"
-  | "z"
-  | "z'";
+  | (typeof MOVES)[number]
+  | (typeof PRIME_MOVES)[number]
+  | (typeof ROTATIONS)[number]
+  | (typeof PRIME_ROTATIONS)[number];
 
 function createCube({ width, height }: { width: number; height: number }) {
   return {

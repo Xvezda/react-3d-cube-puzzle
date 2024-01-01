@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo, useRef, MouseEventHandler } from "react";
 import { Cube, CubeContext } from "./Cube";
-import { useCube, Move } from "./use-cube";
+import { useCube, Move, MOVES, ROTATIONS } from "./use-cube";
 
 export function App() {
   const { cube, move } = useCube();
@@ -120,17 +120,14 @@ export function App() {
           }}
         >
           <div style={{ display: "flex" }}>
-            <ControlButton>F</ControlButton>
-            <ControlButton>B</ControlButton>
-            <ControlButton>U</ControlButton>
-            <ControlButton>D</ControlButton>
-            <ControlButton>L</ControlButton>
-            <ControlButton>R</ControlButton>
+            {MOVES.map((move) => (
+              <ControlButton key={move}>{move}</ControlButton>
+            ))}
           </div>
           <div style={{ display: "flex" }}>
-            <ControlButton>x</ControlButton>
-            <ControlButton>y</ControlButton>
-            <ControlButton>z</ControlButton>
+            {ROTATIONS.map((rotation) => (
+              <ControlButton key={rotation}>{rotation}</ControlButton>
+            ))}
             <button
               onClick={() => {
                 setIsLocked(!isLocked);
