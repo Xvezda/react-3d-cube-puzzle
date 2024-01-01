@@ -1,4 +1,4 @@
-import { createContext, useContext } from 'react';
+import { createContext, useContext, useMemo } from "react";
 
 export type Piece = string;
 export type Face = Piece[][];
@@ -22,6 +22,9 @@ export const CubeContext = createContext({ unit: 50 });
 export function Cube({ data }: { data: Cube }) {
   const { unit } = useContext(CubeContext);
 
+  const faceZ = useMemo(() => Math.floor((unit * 3) / 2), [unit]);
+  const hiddenFaceZ = useMemo(() => Math.floor(unit * 4), [unit]);
+
   return (
     <div
       style={{
@@ -29,43 +32,47 @@ export function Cube({ data }: { data: Cube }) {
         height: unit * 3,
         position: "relative",
         transformStyle: "preserve-3d",
-        transform: `translateX(${unit * 3}px) translateY(${unit * 3}px) rotateX(-30deg) rotateY(-45deg)`,
+        transform: `translateX(${
+          unit * 3 + Math.floor(unit / 2)
+        }px) translateY(${unit * 3}px) rotateX(-30deg) rotateY(-45deg)`,
       }}
     >
       <Face
         data={data.up}
-        style={{ transform: `rotateX(90deg) translateZ(${Math.floor(unit * 3 / 2)}px)` }}
+        style={{ transform: `rotateX(90deg) translateZ(${faceZ}px)` }}
       />
-      <Face data={data.front} style={{ transform: `translateZ(${Math.floor(unit * 3 / 2)}px)` }} />
+      <Face data={data.front} style={{ transform: `translateZ(${faceZ}px)` }} />
       <Face
         data={data.left}
-        style={{ transform: `rotateY(-90deg) translateZ(${Math.floor(unit * 3 / 2)}px)` }}
+        style={{ transform: `rotateY(-90deg) translateZ(${faceZ}px)` }}
       />
       <Face
         data={data.back}
-        style={{ transform: `rotateY(180deg) translateZ(${Math.floor(unit * 3 / 2)}px)` }}
+        style={{ transform: `rotateY(180deg) translateZ(${faceZ}px)` }}
       />
       <Face
         data={data.right}
-        style={{ transform: `rotateY(90deg) translateZ(${Math.floor(unit * 3 / 2)}px)` }}
+        style={{ transform: `rotateY(90deg) translateZ(${faceZ}px)` }}
       />
       <Face
         data={data.down}
-        style={{ transform: `rotateX(-90deg) translateZ(${Math.floor(unit * 3 / 2)}px)` }}
+        style={{ transform: `rotateX(-90deg) translateZ(${faceZ}px)` }}
       />
 
       {/** hidden faces clone */}
       <Face
         data={data.left}
-        style={{ transform: `rotateY(-90deg) translateZ(${unit * 4}px)` }}
+        style={{ transform: `rotateY(-90deg) translateZ(${hiddenFaceZ}px)` }}
       />
       <Face
         data={data.back}
-        style={{ transform: `rotateY(180deg) translateZ(${unit * 4}px)` }}
+        style={{ transform: `rotateY(180deg) translateZ(${hiddenFaceZ}px)` }}
       />
       <Face
         data={data.down}
-        style={{ transform: `rotateX(-90deg) translateZ(${unit * 4 - 20}px)` }}
+        style={{
+          transform: `rotateX(-90deg) translateZ(${hiddenFaceZ - 20}px)`,
+        }}
       />
     </div>
   );
@@ -89,7 +96,7 @@ export function Face({ data, style }: { data: Face; style?: any }) {
                 height: unit,
                 border: "1px solid black",
                 backgroundColor: color,
-                boxSizing: 'border-box',
+                boxSizing: "border-box",
                 opacity: 0.9,
               }}
             ></div>

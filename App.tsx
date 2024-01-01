@@ -41,7 +41,7 @@ export function App() {
 
       const { width } = containerRef.current.getBoundingClientRect();
 
-      const newUnit = Math.floor(width / 9);
+      const newUnit = Math.floor(width / 10);
       if (newUnit > minUnit) return;
 
       setUnit(newUnit);
@@ -77,9 +77,9 @@ export function App() {
               border: `1px solid #222`,
               background: "#333",
               color: "white",
-              fontSize: "1rem",
-              padding: "1rem 1.5rem",
-              minWidth: "4rem",
+              fontSize: "1em",
+              padding: "1em 1.25em",
+              minWidth: "4em",
 
               ...style,
             }}
@@ -105,7 +105,7 @@ export function App() {
       >
         <div
           ref={containerRef}
-          style={{ width: minUnit * 9, height: unit * 10, maxWidth: "100%" }}
+          style={{ width: minUnit * 10, height: unit * 10, maxWidth: "100%" }}
         >
           <CubeContext.Provider value={{ unit }}>
             <Cube data={cube} />
@@ -137,8 +137,8 @@ export function App() {
                 border: `1px solid #222`,
                 backgroundColor: isLocked ? "#222" : "#333",
                 color: "white",
-                fontSize: "1rem",
-                padding: "1rem 1.5rem",
+                fontSize: "1em",
+                padding: "0.75em 1.25em",
                 flex: 1,
               }}
             >
