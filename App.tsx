@@ -98,7 +98,7 @@ export function App() {
           </button>
         );
       },
-    [move, setIsPrime, isPrime, setIsSquare, isSquare],
+    [move, setIsPrime, isPrime, setIsSquare, isSquare, isLocked],
   );
 
   return (
@@ -153,7 +153,12 @@ export function App() {
             <button
               onClick={() => {
                 setIsLocked(!isLocked);
-                setIsPrime(!isPrime);
+
+                if (isLocked && isPrime) {
+                  setIsPrime(false);
+                } else {
+                  setIsPrime(true);
+                }
               }}
               style={{
                 border: `1px solid #222`,
