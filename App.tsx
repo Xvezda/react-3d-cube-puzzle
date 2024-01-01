@@ -9,6 +9,7 @@ export function App() {
   const [unit, setUnit] = useState(50);
   const [isPrime, setIsPrime] = useState(false);
   const [isLocked, setIsLocked] = useState(false);
+  const [isSquare, setIsSquare] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>();
 
@@ -67,6 +68,13 @@ export function App() {
       }) => {
         const handleClick: MouseEventHandler = () => {
           move(`${children.trim()}${isPrime ? "'" : ""}` as Move);
+          // FIXME: hacky
+          if (isSquare) {
+            move(`${children.trim()}${isPrime ? "'" : ""}` as Move);
+          }
+
+          setIsSquare(false);
+
           if (!isLocked) setIsPrime(false);
         };
 
@@ -78,8 +86,9 @@ export function App() {
               background: "#333",
               color: "white",
               fontSize: "1em",
-              padding: "1em 1.25em",
+              padding: "1em",
               minWidth: "4em",
+              flex: 1,
 
               ...style,
             }}
@@ -89,7 +98,7 @@ export function App() {
           </button>
         );
       },
-    [move, setIsPrime, isPrime],
+    [move, setIsPrime, isPrime, setIsSquare, isSquare],
   );
 
   return (
@@ -125,6 +134,19 @@ export function App() {
             ))}
           </div>
           <div style={{ display: "flex" }}>
+            <button
+              onClick={() => setIsSquare(!isSquare)}
+              style={{
+                border: `1px solid #222`,
+                backgroundColor: isSquare ? "#222" : "#333",
+                color: "white",
+                fontSize: "1rem",
+                padding: "1rem 1.5rem",
+                flex: 1,
+              }}
+            >
+              2
+            </button>
             {ROTATIONS.map((rotation) => (
               <ControlButton key={rotation}>{rotation}</ControlButton>
             ))}
