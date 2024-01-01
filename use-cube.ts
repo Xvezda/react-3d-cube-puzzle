@@ -1,16 +1,25 @@
-import { useReducer, useCallback } from 'react';
-import { Cube, Face } from './Cube';
+import { useReducer, useCallback } from "react";
+import { Cube, Face } from "./Cube";
 
-export type Move = |
-  'F' | "F'" |
-  'B' | "B'" |
-  'U' | "U'" |
-  'D' | "D'" |
-  'L' | "L'" |
-  'R' | "R'" |
-  'x' | "x'" |
-  'y' | "y'" |
-  'z' | "z'";
+export type Move =
+  | "F"
+  | "F'"
+  | "B"
+  | "B'"
+  | "U"
+  | "U'"
+  | "D"
+  | "D'"
+  | "L"
+  | "L'"
+  | "R"
+  | "R'"
+  | "x"
+  | "x'"
+  | "y"
+  | "y'"
+  | "z"
+  | "z'";
 
 function createCube({ width, height }: { width: number; height: number }) {
   return {
@@ -37,12 +46,12 @@ function createFace({
   height: number;
   color: string;
 }) {
-  return Array.from({ length: width }, () =>
-    Array.from({ length: height }, () => color),
+  return Array.from({ length: height }, () =>
+    Array.from({ length: width }, () => color),
   );
 }
 
-function spinClockwise(face: Face) {
+function turnClockwise(face: Face) {
   return [
     [face[2][0], face[1][0], face[0][0]],
     [face[2][1], face[1][1], face[0][1]],
@@ -50,7 +59,7 @@ function spinClockwise(face: Face) {
   ];
 }
 
-function spinCounterClockwise(face: Face) {
+function turnCounterClockwise(face: Face) {
   return [
     [face[0][2], face[1][2], face[2][2]],
     [face[0][1], face[1][1], face[2][1]],
@@ -63,7 +72,7 @@ const cubeReducer = (cube: Cube, action: { type: Move }) => {
     case "L":
       return {
         ...cube,
-        left: spinClockwise(cube.left),
+        left: turnClockwise(cube.left),
         up: [
           [cube.back[2][2], cube.up[0][1], cube.up[0][2]],
           [cube.back[1][2], cube.up[1][1], cube.up[1][2]],
@@ -88,7 +97,7 @@ const cubeReducer = (cube: Cube, action: { type: Move }) => {
     case "L'":
       return {
         ...cube,
-        left: spinCounterClockwise(cube.left),
+        left: turnCounterClockwise(cube.left),
         up: [
           [cube.front[0][0], cube.up[0][1], cube.up[0][2]],
           [cube.front[1][0], cube.up[1][1], cube.up[1][2]],
@@ -110,10 +119,10 @@ const cubeReducer = (cube: Cube, action: { type: Move }) => {
           [cube.back[2][0], cube.back[2][1], cube.up[0][0]],
         ],
       };
-    case 'R':
+    case "R":
       return {
         ...cube,
-        right: spinClockwise(cube.right),
+        right: turnClockwise(cube.right),
         up: [
           [cube.up[0][0], cube.up[0][1], cube.front[0][2]],
           [cube.up[1][0], cube.up[1][1], cube.front[1][2]],
@@ -138,7 +147,7 @@ const cubeReducer = (cube: Cube, action: { type: Move }) => {
     case "R'":
       return {
         ...cube,
-        right: spinCounterClockwise(cube.right),
+        right: turnCounterClockwise(cube.right),
         up: [
           [cube.up[0][0], cube.up[0][1], cube.back[2][0]],
           [cube.up[1][0], cube.up[1][1], cube.back[1][0]],
@@ -160,10 +169,10 @@ const cubeReducer = (cube: Cube, action: { type: Move }) => {
           [cube.down[0][2], cube.back[2][1], cube.back[2][2]],
         ],
       };
-    case 'U':
+    case "U":
       return {
         ...cube,
-        up: spinClockwise(cube.up),
+        up: turnClockwise(cube.up),
         front: [
           [cube.right[0][0], cube.right[0][1], cube.right[0][2]],
           [cube.front[1][0], cube.front[1][1], cube.front[1][2]],
@@ -188,7 +197,7 @@ const cubeReducer = (cube: Cube, action: { type: Move }) => {
     case "U'":
       return {
         ...cube,
-        up: spinCounterClockwise(cube.up),
+        up: turnCounterClockwise(cube.up),
         front: [
           [cube.left[0][0], cube.left[0][1], cube.left[0][2]],
           [cube.front[1][0], cube.front[1][1], cube.front[1][2]],
@@ -210,10 +219,10 @@ const cubeReducer = (cube: Cube, action: { type: Move }) => {
           [cube.right[2][0], cube.right[2][1], cube.right[2][2]],
         ],
       };
-    case 'D':
+    case "D":
       return {
         ...cube,
-        down: spinClockwise(cube.down),
+        down: turnClockwise(cube.down),
         front: [
           [cube.front[0][0], cube.front[0][1], cube.front[0][2]],
           [cube.front[1][0], cube.front[1][1], cube.front[1][2]],
@@ -238,7 +247,7 @@ const cubeReducer = (cube: Cube, action: { type: Move }) => {
     case "D'":
       return {
         ...cube,
-        down: spinCounterClockwise(cube.down),
+        down: turnCounterClockwise(cube.down),
         front: [
           [cube.front[0][0], cube.front[0][1], cube.front[0][2]],
           [cube.front[1][0], cube.front[1][1], cube.front[1][2]],
@@ -260,10 +269,10 @@ const cubeReducer = (cube: Cube, action: { type: Move }) => {
           [cube.back[2][0], cube.back[2][1], cube.back[2][2]],
         ],
       };
-    case 'F':
+    case "F":
       return {
         ...cube,
-        front: spinClockwise(cube.front),
+        front: turnClockwise(cube.front),
         up: [
           [cube.up[0][0], cube.up[0][1], cube.up[0][2]],
           [cube.up[1][0], cube.up[1][1], cube.up[1][2]],
@@ -288,7 +297,7 @@ const cubeReducer = (cube: Cube, action: { type: Move }) => {
     case "F'":
       return {
         ...cube,
-        front: spinCounterClockwise(cube.front),
+        front: turnCounterClockwise(cube.front),
         up: [
           [cube.up[0][0], cube.up[0][1], cube.up[0][2]],
           [cube.up[1][0], cube.up[1][1], cube.up[1][2]],
@@ -310,10 +319,10 @@ const cubeReducer = (cube: Cube, action: { type: Move }) => {
           [cube.left[2][0], cube.left[2][1], cube.up[2][0]],
         ],
       };
-    case 'B':
+    case "B":
       return {
         ...cube,
-        back: spinClockwise(cube.back),
+        back: turnClockwise(cube.back),
         up: [
           [cube.right[0][2], cube.right[1][2], cube.right[2][2]],
           [cube.up[1][0], cube.up[1][1], cube.up[1][2]],
@@ -338,7 +347,7 @@ const cubeReducer = (cube: Cube, action: { type: Move }) => {
     case "B'":
       return {
         ...cube,
-        back: spinCounterClockwise(cube.back),
+        back: turnCounterClockwise(cube.back),
         up: [
           [cube.left[2][0], cube.left[1][0], cube.left[0][0]],
           [cube.up[1][0], cube.up[1][1], cube.up[1][2]],
@@ -360,10 +369,10 @@ const cubeReducer = (cube: Cube, action: { type: Move }) => {
           [cube.down[2][2], cube.left[2][1], cube.left[2][2]],
         ],
       };
-    case 'x':
+    case "x":
       return {
         ...cube,
-        left: spinCounterClockwise(cube.left),
+        left: turnCounterClockwise(cube.left),
         up: [...cube.front],
         front: [...cube.down],
         down: [
@@ -376,12 +385,12 @@ const cubeReducer = (cube: Cube, action: { type: Move }) => {
           [cube.up[1][2], cube.up[1][1], cube.up[1][0]],
           [cube.up[0][2], cube.up[0][1], cube.up[0][0]],
         ],
-        right: spinClockwise(cube.right),
+        right: turnClockwise(cube.right),
       };
     case "x'":
       return {
         ...cube,
-        left: spinClockwise(cube.left),
+        left: turnClockwise(cube.left),
         up: [
           [cube.back[2][2], cube.back[2][1], cube.back[2][0]],
           [cube.back[1][2], cube.back[1][1], cube.back[1][0]],
@@ -394,47 +403,47 @@ const cubeReducer = (cube: Cube, action: { type: Move }) => {
           [cube.down[1][2], cube.down[1][1], cube.down[1][0]],
           [cube.down[0][2], cube.down[0][1], cube.down[0][0]],
         ],
-        right: spinCounterClockwise(cube.right),
+        right: turnCounterClockwise(cube.right),
       };
-    case 'y':
+    case "y":
       return {
         ...cube,
-        up: spinClockwise(cube.up),
+        up: turnClockwise(cube.up),
         right: [...cube.back],
         front: [...cube.right],
         left: [...cube.front],
         back: [...cube.left],
-        down: spinCounterClockwise(cube.down),
+        down: turnCounterClockwise(cube.down),
       };
     case "y'":
       return {
         ...cube,
-        up: spinCounterClockwise(cube.up),
+        up: turnCounterClockwise(cube.up),
         right: [...cube.front],
         front: [...cube.left],
         left: [...cube.back],
         back: [...cube.right],
-        down: spinClockwise(cube.down),
+        down: turnClockwise(cube.down),
       };
-    case 'z':
+    case "z":
       return {
         ...cube,
-        front: spinClockwise(cube.front),
-        up: spinClockwise(cube.left),
-        left: spinClockwise(cube.down),
-        down: spinClockwise(cube.right),
-        right: spinClockwise(cube.up),
-        back: spinCounterClockwise(cube.back),
+        front: turnClockwise(cube.front),
+        up: turnClockwise(cube.left),
+        left: turnClockwise(cube.down),
+        down: turnClockwise(cube.right),
+        right: turnClockwise(cube.up),
+        back: turnCounterClockwise(cube.back),
       };
     case "z'":
       return {
         ...cube,
-        front: spinCounterClockwise(cube.front),
-        up: spinCounterClockwise(cube.right),
-        left: spinCounterClockwise(cube.up),
-        down: spinCounterClockwise(cube.left),
-        right: spinCounterClockwise(cube.down),
-        back: spinClockwise(cube.back),
+        front: turnCounterClockwise(cube.front),
+        up: turnCounterClockwise(cube.right),
+        left: turnCounterClockwise(cube.up),
+        down: turnCounterClockwise(cube.left),
+        right: turnCounterClockwise(cube.down),
+        back: turnClockwise(cube.back),
       };
     default:
       return cube;
@@ -442,8 +451,12 @@ const cubeReducer = (cube: Cube, action: { type: Move }) => {
 };
 
 export const useCube = () => {
-  const [cube, dispatch] = useReducer(cubeReducer, { width: 3, height: 3 }, createCube);
-  
+  const [cube, dispatch] = useReducer(
+    cubeReducer,
+    { width: 3, height: 3 },
+    createCube,
+  );
+
   const move = useCallback((move: Move) => {
     dispatch({ type: move });
   }, []);
