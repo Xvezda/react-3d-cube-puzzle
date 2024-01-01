@@ -3,17 +3,17 @@ import { Cube, Face } from "./Cube";
 
 export const MOVES = ["F", "B", "U", "D", "L", "R"] as const;
 
-export const PRIME_MOVES = MOVES.map((move) => `${move}'` as const);
+export const OPPOSITE_MOVES = MOVES.map((move) => `${move}'` as const);
 
 export const ROTATIONS = ["x", "y", "z"] as const;
 
-export const PRIME_ROTATIONS = ROTATIONS.map((move) => `${move}'` as const);
+export const OPPOSITE_ROTATIONS = ROTATIONS.map((move) => `${move}'` as const);
 
 export type Move =
   | (typeof MOVES)[number]
-  | (typeof PRIME_MOVES)[number]
+  | (typeof OPPOSITE_MOVES)[number]
   | (typeof ROTATIONS)[number]
-  | (typeof PRIME_ROTATIONS)[number];
+  | (typeof OPPOSITE_ROTATIONS)[number];
 
 function createCube({ width, height }: { width: number; height: number }) {
   return {
