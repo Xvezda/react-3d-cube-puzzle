@@ -1,6 +1,7 @@
 {
   "name": "react-3d-cube-puzzle",
   "author": "Xvezda <xvezda@naver.com>",
+  "description": "3D 3x3x3 cube puzzle with React",
   "license": "MIT",
   "version": "0.1.0",
   "source": "index.html",
