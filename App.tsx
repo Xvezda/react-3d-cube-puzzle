@@ -83,6 +83,7 @@ export function App() {
             onClick={handleClick}
             style={{
               border: `1px solid #222`,
+              borderRadius: 0,
               background: "#333",
               color: "white",
               fontSize: "1em",
@@ -138,6 +139,7 @@ export function App() {
               onClick={() => setIsSquare(!isSquare)}
               style={{
                 border: `1px solid #222`,
+                borderRadius: 0,
                 backgroundColor: isSquare ? "#222" : "#333",
                 color: "white",
                 fontSize: "1rem",
@@ -162,6 +164,7 @@ export function App() {
               }}
               style={{
                 border: `1px solid #222`,
+                borderRadius: 0,
                 backgroundColor: isLocked ? "#222" : "#333",
                 color: "white",
                 fontSize: "1em",
@@ -176,6 +179,7 @@ export function App() {
               onClick={() => setIsPrime(!isPrime)}
               style={{
                 border: `1px solid #222`,
+                borderRadius: 0,
                 backgroundColor:
                   isLocked ?
                     "#555" :
