@@ -1,7 +1,7 @@
 import 'normalize.css';
 
 import { createRoot } from 'react-dom/client';
-import { App } from './App';
+import { App } from './components/App';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import { prefixer } from 'stylis';

@@ -1,4 +1,4 @@
-import { Cube } from "../Cube";
+import { Cube } from "../components/Cube";
 
 import F from "./F";
 import B from "./B";

@@ -1,7 +1,7 @@
 import { test, describe, expect } from "vitest";
-import { createCube, type Cube } from "./Cube";
+import { createCube, type Cube } from "../components/Cube";
 import { cubeReducer } from "./use-cube";
-import { parseMoves } from './utils';
+import { parseMoves } from '../utils';
 
 function solve(cube: Cube, moves: string) {
   return parseMoves(moves).reduce((cube, move) => {

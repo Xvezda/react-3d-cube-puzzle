@@ -1,4 +1,4 @@
-import { Cube } from '../Cube';
+import { Cube } from '../components/Cube';
 import { turnClockwise, turnCounterClockwise } from "./turn";
 
 export default {

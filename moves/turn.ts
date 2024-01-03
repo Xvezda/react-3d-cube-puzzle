@@ -1,4 +1,4 @@
-import { Face } from '../Cube';
+import { Face } from '../components/Cube';
 
 export function turnClockwise(face: Face) {
   return [

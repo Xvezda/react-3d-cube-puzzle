@@ -1,8 +1,8 @@
 import { useEffect, useState, useMemo, useRef, MouseEventHandler } from "react";
 import { Cube, CubeContext } from "./Cube";
-import { useCube } from "./use-cube";
-import { Move, MOVES, ROTATIONS } from './moves';
-import { parseMoves } from './utils';
+import { useCube } from "../hooks/use-cube";
+import { Move, MOVES, ROTATIONS } from '../moves';
+import { parseMoves } from '../utils';
 
 export function App() {
   const { cube, move } = useCube();

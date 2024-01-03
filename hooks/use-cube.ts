@@ -1,6 +1,6 @@
 import { useReducer, useCallback } from "react";
-import { createCube, Cube } from './Cube';
-import { moves, Move } from './moves';
+import { createCube, Cube } from '../components/Cube';
+import { moves, Move } from '../moves';
 
 export const cubeReducer = (cube: Cube, action: { type: Move }) => {
   return moves[action.type](cube);
