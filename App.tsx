@@ -1,6 +1,8 @@
 import { useEffect, useState, useMemo, useRef, MouseEventHandler } from "react";
 import { Cube, CubeContext } from "./Cube";
-import { useCube, Move, MOVES, ROTATIONS } from "./use-cube";
+import { useCube } from "./use-cube";
+import { Move, MOVES, ROTATIONS } from './moves';
+import { parseMoves } from './utils';
 
 export function App() {
   const { cube, move } = useCube();
@@ -15,12 +17,12 @@ export function App() {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.ctrlKey || e.altKey || e.metaKey) {
+      if (e.ctrlKey || e.altKey || e.metaKey || /[^xyzUDFBLR]/i.test(e.key)) {
         return;
       }
 
       const notation = [
-        /[xyz]/i.test(e.key) ? e.key.toLowerCase() : e.key.toUpperCase(),
+        /^[xyz]$/i.test(e.key) ? e.key.toLowerCase() : e.key.toUpperCase(),
         e.shiftKey ? "'" : "",
       ].join("");
 
@@ -59,13 +61,21 @@ export function App() {
 
   const ControlButton = useMemo(
     () =>
-      (props: { children: React.ReactNode } & Record<string, any>) => {
+      (props: { children: string } & Record<string, any>) => {
         const handleClick: MouseEventHandler = () => {
-          move(`${children.trim()}${isPrime ? "'" : ""}` as Move);
-          // FIXME: hacky
-          if (isSquare) {
-            move(`${children.trim()}${isPrime ? "'" : ""}` as Move);
-          }
+          const takeFirstMove = (moves: string) => {
+            const [firstMove] = parseMoves(moves);
+            return firstMove;
+          };
+
+          const suffix =
+            isSquare
+            ? "2"
+            : isPrime
+            ? "'"
+            : "";
+
+          move(takeFirstMove(`${children.trim()}${suffix}`));
 
           setIsSquare(false);
 

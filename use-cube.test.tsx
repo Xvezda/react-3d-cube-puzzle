@@ -1,13 +1,10 @@
 import { test, describe, expect } from "vitest";
 import { createCube, type Cube } from "./Cube";
-import { cubeReducer, Move } from "./use-cube";
+import { cubeReducer } from "./use-cube";
+import { parseMoves } from './utils';
 
 function solve(cube: Cube, moves: string) {
-  return (moves.match(/[UDFBLR][2']?/g) as Move[]).reduce((cube, move) => {
-    if (move.endsWith("2")) {
-      // @ts-ignore: FIXME
-      return cubeReducer(cubeReducer(cube, { type: move[0] }), { type: move[0] });
-    }
+  return parseMoves(moves).reduce((cube, move) => {
     return cubeReducer(cube, { type: move });
   }, cube);
 }
