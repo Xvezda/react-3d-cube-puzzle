@@ -7,9 +7,10 @@ import createCache from '@emotion/cache';
 import { prefixer } from 'stylis';
 
 const cache = createCache({
-  key: 'prefixer',
+  key: 'css',
   stylisPlugins: [prefixer],
 });
+cache.compat = true;
 
 const root = createRoot(document.getElementById('root'));
 

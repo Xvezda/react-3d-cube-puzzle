@@ -62,7 +62,7 @@ export function Cube({ data }: { data: Cube }) {
         transformStyle: "preserve-3d",
         transform: `translateX(${
           unit * 3 + Math.floor(unit / 2)
-        }px) translateY(${unit * 3}px) rotateX(-30deg) rotateY(-45deg)`,
+        }px) translateY(${unit * 3}px) rotateX(-30deg) rotateY(-45deg) rotateZ(0deg)`,
       }}
     >
       <Face
