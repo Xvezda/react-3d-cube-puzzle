@@ -55,7 +55,7 @@ export function Cube({ data }: { data: Cube }) {
 
   return (
     <div
-      style={{
+      css={{
         width: unit * 3,
         height: unit * 3,
         position: "relative",
@@ -67,38 +67,38 @@ export function Cube({ data }: { data: Cube }) {
     >
       <Face
         data={data.up}
-        style={{ transform: `rotateX(90deg) translateZ(${faceZ}px)` }}
+        css={{ transform: `rotateX(90deg) translateZ(${faceZ}px)` }}
       />
-      <Face data={data.front} style={{ transform: `translateZ(${faceZ}px)` }} />
+      <Face data={data.front} css={{ transform: `translateZ(${faceZ}px)` }} />
       <Face
         data={data.left}
-        style={{ transform: `rotateY(-90deg) translateZ(${faceZ}px)` }}
+        css={{ transform: `rotateY(-90deg) translateZ(${faceZ}px)` }}
       />
       <Face
         data={data.back}
-        style={{ transform: `rotateY(180deg) translateZ(${faceZ}px)` }}
+        css={{ transform: `rotateY(180deg) translateZ(${faceZ}px)` }}
       />
       <Face
         data={data.right}
-        style={{ transform: `rotateY(90deg) translateZ(${faceZ}px)` }}
+        css={{ transform: `rotateY(90deg) translateZ(${faceZ}px)` }}
       />
       <Face
         data={data.down}
-        style={{ transform: `rotateX(-90deg) translateZ(${faceZ}px)` }}
+        css={{ transform: `rotateX(-90deg) translateZ(${faceZ}px)` }}
       />
 
       {/** hidden faces clone */}
       <Face
         data={data.left}
-        style={{ transform: `rotateY(-90deg) translateZ(${hiddenFaceZ}px)` }}
+        css={{ transform: `rotateY(-90deg) translateZ(${hiddenFaceZ}px)` }}
       />
       <Face
         data={data.back}
-        style={{ transform: `rotateY(180deg) translateZ(${hiddenFaceZ}px)` }}
+        css={{ transform: `rotateY(180deg) translateZ(${hiddenFaceZ}px)` }}
       />
       <Face
         data={data.down}
-        style={{
+        css={{
           transform: `rotateX(-90deg) translateZ(${hiddenFaceZ - 20}px)`,
         }}
       />
@@ -106,19 +106,22 @@ export function Cube({ data }: { data: Cube }) {
   );
 }
 
-export function Face({ data, style }: { data: Face; style?: any }) {
+export function Face(props: { data: Face } & Record<string, any>) {
   const { unit } = useContext(CubeContext);
+
+  const { data, ...restProps } = props;
 
   return (
     <div
-      style={{ position: "absolute", backfaceVisibility: "visible", ...style }}
+      css={{ position: "absolute", backfaceVisibility: "visible" }}
+      {...restProps}
     >
       {data.map((row, i) => (
-        <div key={i} style={{ display: "flex" }}>
+        <div key={i} css={{ display: "flex" }}>
           {row.map((color, j) => (
             <div
               key={[i, j, color].join(":")}
-              style={{
+              css={{
                 display: "flex",
                 width: unit,
                 height: unit,

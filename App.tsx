@@ -59,13 +59,7 @@ export function App() {
 
   const ControlButton = useMemo(
     () =>
-      ({
-        children,
-        style,
-      }: {
-        children: string;
-        style?: Record<string, any>;
-      }) => {
+      (props: { children: React.ReactNode } & Record<string, any>) => {
         const handleClick: MouseEventHandler = () => {
           move(`${children.trim()}${isPrime ? "'" : ""}` as Move);
           // FIXME: hacky
@@ -78,10 +72,12 @@ export function App() {
           if (!isLocked) setIsPrime(false);
         };
 
+        const { children, ...restProps } = props;
+
         return (
           <button
             onClick={handleClick}
-            style={{
+            css={{
               border: `1px solid #222`,
               borderRadius: 0,
               background: "#333",
@@ -90,9 +86,8 @@ export function App() {
               padding: "1em",
               minWidth: "4em",
               flex: 1,
-
-              ...style,
             }}
+            {...restProps}
           >
             {children}
             {isPrime && "'"}
@@ -106,7 +101,7 @@ export function App() {
     <>
       <CornerLink />
       <div
-        style={{
+        css={{
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
@@ -115,7 +110,7 @@ export function App() {
       >
         <div
           ref={containerRef}
-          style={{ width: minUnit * 10, height: unit * 10, maxWidth: "100%" }}
+          css={{ width: minUnit * 10, height: unit * 10, maxWidth: "100%" }}
         >
           <CubeContext.Provider value={{ unit }}>
             <Cube data={cube} />
@@ -123,21 +118,21 @@ export function App() {
         </div>
 
         <div
-          style={{
+          css={{
             maxWidth: minUnit * 9,
             display: "flex",
             flexDirection: "column",
           }}
         >
-          <div style={{ display: "flex" }}>
+          <div css={{ display: "flex" }}>
             {MOVES.map((move) => (
               <ControlButton key={move}>{move}</ControlButton>
             ))}
           </div>
-          <div style={{ display: "flex" }}>
+          <div css={{ display: "flex" }}>
             <button
               onClick={() => setIsSquare(!isSquare)}
-              style={{
+              css={{
                 border: `1px solid #222`,
                 borderRadius: 0,
                 backgroundColor: isSquare ? "#222" : "#333",
@@ -162,7 +157,7 @@ export function App() {
                   setIsPrime(true);
                 }
               }}
-              style={{
+              css={{
                 border: `1px solid #222`,
                 borderRadius: 0,
                 backgroundColor: isLocked ? "#222" : "#333",
@@ -177,7 +172,7 @@ export function App() {
             <button
               disabled={isLocked}
               onClick={() => setIsPrime(!isPrime)}
-              style={{
+              css={{
                 border: `1px solid #222`,
                 borderRadius: 0,
                 backgroundColor:
@@ -208,7 +203,7 @@ function CornerLink() {
         width={80}
         height={80}
         aria-hidden="true"
-        style={{
+        css={{
           fill: "#151513",
           color: "#fff",
           position: "absolute",
@@ -223,7 +218,7 @@ function CornerLink() {
           fill="currentColor"
           d="M128.3 109c-14.5-9.3-9.3-19.4-9.3-19.4 3-6.9 1.5-11 1.5-11-1.3-6.6 2.9-2.3 2.9-2.3 3.9 4.6 2.1 11 2.1 11-2.6 10.3 5.1 14.6 8.9 15.9"
           className="octo-arm"
-          style={{
+          css={{
             transformOrigin: "130px 106px",
           }}
         />
