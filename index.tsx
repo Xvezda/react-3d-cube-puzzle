@@ -2,5 +2,19 @@ import 'normalize.css';
 
 import { createRoot } from 'react-dom/client';
 import { App } from './App';
+import { CacheProvider } from '@emotion/react';
+import createCache from '@emotion/cache';
+import { prefixer } from 'stylis';
 
-createRoot(document.getElementById('root')).render(<App />);
+const cache = createCache({
+  key: 'prefixer',
+  stylisPlugins: [prefixer],
+});
+
+const root = createRoot(document.getElementById('root'));
+
+root.render(
+  <CacheProvider value={cache}>
+    <App />
+  </CacheProvider>
+);

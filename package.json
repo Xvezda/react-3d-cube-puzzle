@@ -21,6 +21,7 @@
     "@emotion/babel-plugin": "^11.11.0",
     "@types/react": "^18.2.46",
     "@types/react-dom": "^18.2.18",
+    "@types/stylis": "^4.2.5",
     "gh-pages": "^6.1.1",
     "normalize.css": "^8.0.1",
     "parcel": "^2.10.3",
@@ -28,8 +29,10 @@
     "vitest": "^1.1.1"
   },
   "dependencies": {
+    "@emotion/cache": "^11.11.0",
     "@emotion/react": "^11.11.3",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "stylis": "^4.3.1"
   }
 }
